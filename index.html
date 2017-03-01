@@ -1,0 +1,77 @@
+<html>
+
+<head>
+    <title>SVG</title>
+</head>
+
+<body>
+    <center><svg id = "slate" height="500" width="500">
+    </svg></center>
+    <center><button id="but">Clear</button></center>
+    </body>
+
+    <style>
+
+    #slate{
+        border: 2px solid black;
+        background-color: #CECEF6;
+    }
+
+    </style>
+
+    <script>
+
+        var pic = document.getElementById("slate");
+        var x,y;
+
+        var draw = function(event){
+
+            if(pic.childNodes.length <= 1){
+                x = event.offsetX;
+                y = event.offsetY;
+            }
+
+            var l = document.createElementNS("http://www.w3.org/2000/svg",
+            "line");
+
+            l.setAttribute("stroke","black");
+            l.setAttribute("x1",x);
+            l.setAttribute("y1",y);
+            l.setAttribute("x2",event.offsetX);
+            l.setAttribute("y2",event.offsetY);
+
+            pic.appendChild(l);
+
+            x = event.offsetX;
+            y = event.offsetY;
+
+            var c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+
+            c.setAttribute("cx",event.offsetX);
+            c.setAttribute("cy",event.offsetY);
+            c.setAttribute("r","25");
+            c.setAttribute("fill","blue");
+            c.setAttribute("stroke","black");
+
+            pic.appendChild(c);
+
+        }
+
+        var clear = function(event){
+            //var f = pic.firstChild;
+            try{
+                while (pic.hasChildNodes){
+                    pic.removeChild(pic.firstChild);
+                }
+            }
+            //catch last one
+            catch(TypeError){
+            }
+        }
+
+        pic.addEventListener('click',draw);
+        document.getElementById('but').addEventListener('click',clear);
+
+    </script>
+</body>
+</html>
