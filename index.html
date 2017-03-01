@@ -12,6 +12,7 @@
 
     <style>
 
+    /*aesthetic*/
     #slate{
         border: 2px solid black;
         background-color: #CECEF6;
@@ -21,16 +22,19 @@
 
     <script>
 
+        //declarations
         var pic = document.getElementById("slate");
         var x,y;
 
         var draw = function(event){
 
+            //is this your first line?
             if(pic.childNodes.length <= 1){
                 x = event.offsetX;
                 y = event.offsetY;
             }
 
+            //make the line
             var l = document.createElementNS("http://www.w3.org/2000/svg",
             "line");
 
@@ -42,9 +46,11 @@
 
             pic.appendChild(l);
 
+            //start points of next line
             x = event.offsetX;
             y = event.offsetY;
 
+            //make the circle
             var c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
 
             c.setAttribute("cx",event.offsetX);
@@ -58,17 +64,17 @@
         }
 
         var clear = function(event){
-            //var f = pic.firstChild;
             try{
                 while (pic.hasChildNodes){
                     pic.removeChild(pic.firstChild);
                 }
             }
-            //catch last one
+            //catch last one (it's not like other nodes)
             catch(TypeError){
             }
         }
 
+        //event listeners
         pic.addEventListener('click',draw);
         document.getElementById('but').addEventListener('click',clear);
 
