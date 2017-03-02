@@ -7,6 +7,8 @@
 <body>
     <center><svg id = "slate" height="500" width="500">
     </svg></center>
+    <center><button id="cButton">Circle</button></center>
+    <center><button id="stop">Stop</button></center>
     <center><button id="but">Clear</button></center>
     </body>
 
@@ -25,6 +27,7 @@
         //declarations
         var pic = document.getElementById("slate");
         var x,y;
+        var intervalId, circle;
 
         var draw = function(event){
 
@@ -63,20 +66,68 @@
 
         }
 
-        var clear = function(event){
+        var grow = function(){
+            //aesthetic
+            var height = pic.getAttribute('height');
+            var width = pic.getAttribute("width");
+
             try{
-                while (pic.hasChildNodes){
-                    pic.removeChild(pic.firstChild);
-                }
+                pic.removeChild(circle);
+                window.clearInterval(intervalId);
             }
-            //catch last one (it's not like other nodes)
             catch(TypeError){
+
+            }
+
+            //circle
+            var rad = 5;
+            circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            pic.appendChild(circle);
+
+            //animation
+            var change = 1;
+
+            var drawCircle = function(){
+
+                //remove old circle
+                pic.removeChild(circle);
+
+                //make the circle
+                circle.setAttribute("cx",height/2);
+                circle.setAttribute("cy",width/2);
+                circle.setAttribute("r",rad);
+                circle.setAttribute("fill","blue");
+                circle.setAttribute("stroke","black");
+
+                pic.appendChild(circle);
+                if(rad <= 0){
+                    change = 1;
+                }
+                if (rad >= height/2 || rad >= width/2){
+                    change = -1;
+                }
+                rad+=change;
+
+            }
+            intervalId = window.setInterval(drawCircle,16);
+        }
+
+        var stop = function(){
+            window.clearInterval(intervalId);
+
+        }
+
+        var clear = function(event){
+            while (pic.childNodes.length > 0){
+                pic.removeChild(pic.firstChild);
             }
         }
 
         //event listeners
         pic.addEventListener('click',draw);
         document.getElementById('but').addEventListener('click',clear);
+        document.getElementById('cButton').addEventListener('click',grow);
+        document.getElementById('stop').addEventListener('click',stop);
 
     </script>
 </body>
