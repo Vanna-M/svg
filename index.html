@@ -90,7 +90,10 @@
             var drawCircle = function(){
 
                 //remove old circle
-                pic.removeChild(circle);
+                try{
+                    pic.removeChild(circle);
+                }
+                catch(DOMException){}
 
                 //make the circle
                 circle.setAttribute("cx",height/2);
